@@ -1,0 +1,50 @@
+﻿@model List<Blog>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12 my-5">
+            <a asp-area="admin" asp-controller="blog" asp-action="create" class="btn btn-primary"><i class="fas fa-plus"></i></a>
+        </div>
+        <hr />
+        <div class="col-lg-12">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Image</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">User</th>
+                        <th scope="col">Content</th>
+                        <th scope="col">Date</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{int i = 0; }
+                    @foreach (var item in Model)
+                    {
+                        i++;
+                        <tr>
+                            <th scope="row">@i</th>
+                            <td><img src="~/Upload/@item.Image" alt="Alternate Text" style="max-width:120px; max-height:120px"/></td>
+                            <td>@item.Title</td>
+                            <td>@item.Category.Name</td>
+                            @*<td>@item.User.Name</td>*@
+                            <td>@(item.Content.Length>40? item.Content.Substring(0,40)+"...": item.Content)</td>
+                            <td>@item.CreateDate.ToString("dd.MM.yyyy HH:mm")</td>
+                            <td>
+                                <a asp-area="admin" asp-controller="blog" asp-action="update" asp-route-id="@item.ID" class="btn btn-success"><i class="far fa-edit"></i></a>
+                                <a asp-area="admin" asp-controller="blog" asp-action="delete" asp-route-id="@item.ID" onclick="return confirm('Are you sure?')" class="btn btn-danger"><i class="far fa-trash-alt"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
